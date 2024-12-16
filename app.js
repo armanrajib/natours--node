@@ -1,14 +1,18 @@
+import fs from 'fs';
 import express from 'express';
 
 const app = express();
 
-app.get('/', (req, res) => {
-    // res.status(200).send('Hello, Express! (Server side)');
-    res.status(200).json({ app: 'Natours', message: 'Hello, Express! (Server side)' });
-});
+const tours = JSON.parse(fs.readFileSync('./dev-data/data/tours-simple.json'));
 
-app.post('/', (req, res) => {
-    res.status(200).send('You can post to this endpoint...');
+app.get('/api/v1/tours', (req, res) => {
+    res.status(200).json({
+        status: 'success',
+        results: tours.length,
+        data: {
+            tours,
+        },
+    });
 });
 
 const port = 3000;
