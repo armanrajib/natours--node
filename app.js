@@ -1,18 +1,22 @@
 import fs from 'fs';
 import express from 'express';
+import morgan from 'morgan';
 
 const app = express();
 
-// MIDDLEWARE 1
+// MIDDLEWARE 1 (THIRD-PARTY)
+app.use(morgan('dev'));
+
+// MIDDLEWARE 2
 app.use(express.json());
 
-// MIDDLEWARE 2 (CUSTOM)
+// MIDDLEWARE 3 (CUSTOM)
 app.use((req, res, next) => {
     console.log('Hello from the middleware 👋');
     next();
 });
 
-// MIDDLEWARE 3 (CUSTOM)
+// MIDDLEWARE 4 (CUSTOM)
 app.use((req, res, next) => {
     req.requestTime = new Date().toISOString();
     next();
