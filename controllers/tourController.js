@@ -15,6 +15,17 @@ const checkTourId = (req, res, next, val) => {
     next();
 };
 
+// checkBody MIDDLEWARE (before createTour)
+const checkBody = (req, res, next) => {
+    if (!req.body.name || !req.body.price) {
+        return res.status(400).json({
+            status: 'fail',
+            message: 'Missing name or price',
+        });
+    }
+    next();
+};
+
 // TOURS ROUTE CONTROLLERS
 // -----------------------
 
@@ -86,4 +97,4 @@ const deleteTour = (req, res) => {
     });
 };
 
-export { getAllTours, createTour, getTour, updateTour, deleteTour, checkTourId };
+export { getAllTours, createTour, getTour, updateTour, deleteTour, checkTourId, checkBody };
