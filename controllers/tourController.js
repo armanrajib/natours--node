@@ -2,8 +2,21 @@ import fs from 'fs';
 
 const tours = JSON.parse(fs.readFileSync('./dev-data/data/tours-simple.json'));
 
-// TOURS ROUTE HANDLERS
-// --------------------
+// PARAM MIDDLEWARE (TOUR ID)
+const checkTourId = (req, res, next, val) => {
+    const tour = tours.find((el) => el.id === Number(val));
+
+    if (!tour)
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID',
+        });
+
+    next();
+};
+
+// TOURS ROUTE CONTROLLERS
+// -----------------------
 
 const getAllTours = (req, res) => {
     console.log(req.requestTime);
@@ -37,12 +50,6 @@ const getTour = (req, res) => {
     const id = Number(req.params.id);
     const tour = tours.find((el) => el.id === id);
 
-    if (!tour)
-        return res.status(404).json({
-            status: 'fail',
-            message: 'Invalid ID',
-        });
-
     res.status(200).json({
         status: 'success',
         data: {
@@ -54,13 +61,6 @@ const getTour = (req, res) => {
 const updateTour = (req, res) => {
     const id = Number(req.params.id);
     const tour = tours.find((el) => el.id === id);
-
-    if (!tour)
-        return res.status(404).json({
-            status: 'fail',
-            message: 'Invalid ID',
-        });
-
     const updatedTour = { ...tour, ...req.body };
     const updatedTours = tours.map((el) => (el.id === id ? updatedTour : el));
 
@@ -76,14 +76,6 @@ const updateTour = (req, res) => {
 
 const deleteTour = (req, res) => {
     const id = Number(req.params.id);
-    const tour = tours.find((el) => el.id === id);
-
-    if (!tour)
-        return res.status(404).json({
-            status: 'fail',
-            message: 'Invalid ID',
-        });
-
     const updatedTours = tours.filter((el) => el.id !== id);
 
     fs.writeFile('./dev-data/data/tours-simple.json', JSON.stringify(updatedTours), (err) => {
@@ -94,4 +86,4 @@ const deleteTour = (req, res) => {
     });
 };
 
-export { getAllTours, createTour, getTour, updateTour, deleteTour };
+export { getAllTours, createTour, getTour, updateTour, deleteTour, checkTourId };
