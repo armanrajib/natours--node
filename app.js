@@ -7,7 +7,10 @@ import userRouter from './routes/userRoutes.js';
 const app = express();
 
 // MIDDLEWARE 1 (THIRD-PARTY)
-app.use(morgan('dev'));
+console.log(process.env.NODE_ENV); // why undefined? --> Have to look again
+if (process.env.NODE_ENV === 'development') {
+    app.use(morgan('dev'));
+}
 
 // MIDDLEWARE 2
 app.use(express.json());
