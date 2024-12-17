@@ -1,34 +1,4 @@
-import fs from 'fs';
-
 import Tour from '../models/tourModel.mjs';
-
-const tours = JSON.parse(fs.readFileSync('./dev-data/data/tours-simple.json'));
-
-// PARAM MIDDLEWARE (TOUR ID)
-// --------------------------
-// const checkTourId = (req, res, next, val) => {
-//     const tour = tours.find((el) => el.id === Number(val));
-
-//     if (!tour)
-//         return res.status(404).json({
-//             status: 'fail',
-//             message: 'Invalid ID',
-//         });
-
-//     next();
-// };
-
-// checkBody MIDDLEWARE (before createTour)
-// ----------------------------------------
-// const checkBody = (req, res, next) => {
-//     if (!req.body.name || !req.body.price) {
-//         return res.status(400).json({
-//             status: 'fail',
-//             message: 'Missing name or price',
-//         });
-//     }
-//     next();
-// };
 
 // TOURS ROUTE CONTROLLERS
 // -----------------------
