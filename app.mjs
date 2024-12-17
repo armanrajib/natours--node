@@ -1,13 +1,15 @@
 import express from 'express';
 import morgan from 'morgan';
+import dotenv from 'dotenv';
 
 import tourRouter from './routes/tourRoutes.mjs';
 import userRouter from './routes/userRoutes.mjs';
 
+dotenv.config({ path: './config.env' });
+
 const app = express();
 
 // MIDDLEWARE 1 (THIRD-PARTY)
-console.log(process.env.NODE_ENV); // why undefined? --> Have to look again
 if (process.env.NODE_ENV === 'development') {
     app.use(morgan('dev'));
 }
