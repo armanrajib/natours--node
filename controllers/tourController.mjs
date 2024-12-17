@@ -86,20 +86,25 @@ const getTour = async (req, res) => {
     }
 };
 
-const updateTour = (req, res) => {
-    const id = Number(req.params.id);
-    const tour = tours.find((el) => el.id === id);
-    const updatedTour = { ...tour, ...req.body };
-    const updatedTours = tours.map((el) => (el.id === id ? updatedTour : el));
+const updateTour = async (req, res) => {
+    try {
+        const updatedTour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true,
+        });
 
-    fs.writeFile('./dev-data/data/tours-simple.json', JSON.stringify(updatedTours), (err) => {
         res.status(200).json({
             status: 'success',
             data: {
                 tour: updatedTour,
             },
         });
-    });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err,
+        });
+    }
 };
 
 const deleteTour = (req, res) => {
