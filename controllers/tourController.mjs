@@ -33,17 +33,22 @@ const tours = JSON.parse(fs.readFileSync('./dev-data/data/tours-simple.json'));
 // TOURS ROUTE CONTROLLERS
 // -----------------------
 
-const getAllTours = (req, res) => {
-    console.log(req.requestTime);
-
-    res.status(200).json({
-        status: 'success',
-        results: tours.length,
-        requestedAt: req.requestTime,
-        data: {
-            tours,
-        },
-    });
+const getAllTours = async (req, res) => {
+    try {
+        const tours = await Tour.find({}, { __v: 0 });
+        res.status(200).json({
+            status: 'success',
+            results: tours.length,
+            data: {
+                tours,
+            },
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err,
+        });
+    }
 };
 
 const createTour = async (req, res) => {
@@ -63,16 +68,22 @@ const createTour = async (req, res) => {
     }
 };
 
-const getTour = (req, res) => {
-    const id = Number(req.params.id);
-    const tour = tours.find((el) => el.id === id);
-
-    res.status(200).json({
-        status: 'success',
-        data: {
-            tour,
-        },
-    });
+const getTour = async (req, res) => {
+    try {
+        // const tour = await Tour.findOne({ _id: req.params.id });
+        const tour = await Tour.findById(req.params.id);
+        res.status(200).json({
+            status: 'success',
+            data: {
+                tour,
+            },
+        });
+    } catch (err) {
+        res.status(404).json({
+            status: 'fail',
+            message: err,
+        });
+    }
 };
 
 const updateTour = (req, res) => {
