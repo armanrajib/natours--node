@@ -1,8 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
 
-import tourRouter from './routes/tourRoutes.js';
-import userRouter from './routes/userRoutes.js';
+import tourRouter from './routes/tourRoutes.mjs';
+import userRouter from './routes/userRoutes.mjs';
 
 const app = express();
 

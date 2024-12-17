@@ -2,11 +2,12 @@
     "name": "natours",
     "version": "1.0.0",
     "description": "Learning node, express, and mongodb",
-    "main": "app.js",
+    "type": "module",
+    "main": "app.mjs",
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "dev": "nodemon server.js",
-        "prod": "NODE_ENV=production nodemon server.js"
+        "dev": "nodemon server.mjs",
+        "prod": "NODE_ENV=production nodemon server.mjs"
     },
     "author": "Arman Rajib",
     "license": "ISC",

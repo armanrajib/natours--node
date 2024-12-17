@@ -1,9 +1,7 @@
 import dotenv from 'dotenv';
+import app from './app.mjs';
 
 dotenv.config({ path: './config.env' });
-// console.log(process.env);
-
-import app from './app.js';
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
