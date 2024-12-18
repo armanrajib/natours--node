@@ -1,5 +1,15 @@
 import Tour from '../models/tourModel.mjs';
 
+// MIDDLEWARES
+// ------------
+
+const aliasTopTours = (req, res, next) => {
+    req.query.limit = '5';
+    req.query.sort = '-ratingsAverage,price';
+    req.query.fields = 'name,price,ratingsAverage,summary,difficulty';
+    next();
+};
+
 // TOURS ROUTE CONTROLLERS
 // -----------------------
 
@@ -143,4 +153,4 @@ const deleteTour = async (req, res) => {
     }
 };
 
-export { getAllTours, createTour, getTour, updateTour, deleteTour };
+export { getAllTours, createTour, getTour, updateTour, deleteTour, aliasTopTours };

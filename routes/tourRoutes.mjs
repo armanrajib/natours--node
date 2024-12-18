@@ -1,8 +1,17 @@
 import express from 'express';
 
-import { getAllTours, createTour, getTour, updateTour, deleteTour } from '../controllers/tourController.mjs';
+import {
+    getAllTours,
+    createTour,
+    getTour,
+    updateTour,
+    deleteTour,
+    aliasTopTours,
+} from '../controllers/tourController.mjs';
 
 const router = express.Router();
+
+router.route('/top-5-cheap').get(aliasTopTours, getAllTours);
 
 router.route('/').get(getAllTours).post(createTour);
 
