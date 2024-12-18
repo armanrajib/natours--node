@@ -5,7 +5,21 @@ import Tour from '../models/tourModel.mjs';
 
 const getAllTours = async (req, res) => {
     try {
-        const tours = await Tour.find({}, { __v: 0 });
+        // BUILD QUERY
+        const queryObj = { ...req.query };
+        const excludedFields = ['page', 'sort', 'limit', 'fields'];
+        excludedFields.forEach((field) => delete queryObj[field]);
+
+        const query = Tour.find(queryObj, { __v: 0 });
+        // const query = Tour.find({}, { __v: 0 })
+        //     .where('duration')
+        //     .equals(queryObj.duration)
+        //     .where('difficulty')
+        //     .equals(queryObj.difficulty);
+
+        // EXECUTE QUERY
+        const tours = await query;
+
         res.status(200).json({
             status: 'success',
             results: tours.length,
