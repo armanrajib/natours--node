@@ -4,6 +4,8 @@ import dotenv from 'dotenv';
 
 import tourRouter from './routes/tourRoutes.mjs';
 import userRouter from './routes/userRoutes.mjs';
+import AppError from './utils/appError.mjs';
+import globalErrorHandler from './controllers/errorController.mjs';
 
 dotenv.config({ path: './config.env' });
 
@@ -38,27 +40,10 @@ app.use('/api/v1/users', userRouter);
 
 // UNHANDLED ROUTES MIDDLEWARE
 app.all('*', (req, res, next) => {
-    // res.status(404).json({
-    //     status: 'fail',
-    //     message: `Can't find ${req.originalUrl} on this server!`,
-    // });
-
-    const err = new Error(`Can't find ${req.originalUrl} on this server!`);
-    err.statusCode = 404;
-    err.status = 'fail';
-
-    next(err);
+    next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 
 // GLOBAL ERROR HANDLING MIDDLEWARE
-app.use((err, req, res, next) => {
-    err.statusCode = err.statusCode || 500;
-    err.status = err.status || 'error';
-
-    res.status(err.statusCode).json({
-        status: err.status,
-        message: err.message,
-    });
-});
+app.use(globalErrorHandler);
 
 export default app;
